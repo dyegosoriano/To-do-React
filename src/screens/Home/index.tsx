@@ -1,12 +1,11 @@
 import React from 'react'
-import { Text } from 'react-native'
 
-import { Container } from './styles'
+import { Container, Title } from './styles'
 
 const Home: React.FC = () => {
   return (
     <Container>
-      <Text>Home</Text>
+      <Title>Home</Title>
     </Container>
   )
 }
