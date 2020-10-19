@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
+import { Alert } from 'react-native'
 
 export const todosContext = createContext({})
 
@@ -31,10 +32,25 @@ export default function todosProvider({ children }: any) {
   function deleteTodo(id: number) {
     const filteredTodos = todos.filter(todo => todo.id !== id)
 
-    setTodos(filteredTodos)
+    Alert.alert('Alerta!', 'Você deseja realmente excluir esse item?', [
+      {
+        text: 'Sim',
+        onPress: () => setTodos(filteredTodos)
+      },
+      {
+        text: 'Não'
+      }
+    ])
   }
 
-  function saveTodo(todo: Todo) {
+  function addNewTodo(description: string) {
+    const todo: Todo = {
+      id: todos.length + 1,
+      userId: 1,
+      title: description,
+      completed: false
+    }
+
     setTodos([todo, ...todos])
   }
 
@@ -47,7 +63,7 @@ export default function todosProvider({ children }: any) {
       value={{
         todos,
         loading,
-        saveTodo,
+        addNewTodo,
         deleteTodo
       }}
     >
