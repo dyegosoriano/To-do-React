@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Feather } from '@expo/vector-icons'
+
+import { todosContext } from '../../contexts/Todos'
 
 import { ButtonOptions, Todo, TodoText } from './styles'
 
 const BoxTodo: React.FC = ({ todo }) => {
+  const { deleteTodo } = useContext(todosContext)
+
   return (
     <Todo>
       <TodoText>{todo.title}</TodoText>
@@ -16,7 +20,7 @@ const BoxTodo: React.FC = ({ todo }) => {
         />
       </ButtonOptions>
 
-      <ButtonOptions>
+      <ButtonOptions onPress={() => deleteTodo(todo.id)}>
         <Feather name="x" size={24} color="#ff1744" />
       </ButtonOptions>
     </Todo>
