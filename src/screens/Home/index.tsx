@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
-import { Container, Title } from './styles'
+import { todosContext } from '../../contexts/Todos'
+import BoxTodo from '../../components/BoxTodo'
+
+import { Container, TodoList } from './styles'
 
 const Home: React.FC = () => {
+  const { todos } = useContext(todosContext)
+
   return (
     <Container>
-      <Title>Home</Title>
+      <TodoList alwaysBounceHorizontal={false}>
+        {todos.map(item => (
+          <BoxTodo key={item.id} todo={item} />
+        ))}
+      </TodoList>
     </Container>
   )
 }
