@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-community/async-storage'
 import { Alert } from 'react-native'
 
 export const todosContext = createContext({})
@@ -11,18 +12,23 @@ interface Todo {
 }
 
 export default function todosProvider({ children }: any) {
+  const [loading, setLoading] = useState<Boolean>(true)
   const [todos, setTodos] = useState<Todo[]>([])
-  const [loading, setLoading] = useState<Boolean>(false)
 
   async function getTodos() {
-    setLoading(true)
-
     try {
-      const response = await fetch(
-        'https://jsonplaceholder.typicode.com/todos'
-      ).then(response => response.json())
+      const storageTodos = await AsyncStorage.getItem('@To-do:list')
 
-      setTodos(response)
+      if (storageTodos) {
+        setTodos(JSON.parse(storageTodos))
+      } else {
+        const response = await fetch(
+          'https://jsonplaceholder.typicode.com/todos'
+        ).then(response => response.json())
+
+        setTodos(response)
+      }
+
       setLoading(false)
     } catch (error) {
       console.log(`error.message >>> ${error.message} <<<`)
@@ -57,6 +63,14 @@ export default function todosProvider({ children }: any) {
   useEffect(() => {
     getTodos()
   }, [])
+
+  useEffect(() => {
+    const updateStorage = async () => {
+      await AsyncStorage.setItem('@To-do:list', JSON.stringify(todos))
+    }
+
+    updateStorage()
+  }, [todos])
 
   return (
     <todosContext.Provider
