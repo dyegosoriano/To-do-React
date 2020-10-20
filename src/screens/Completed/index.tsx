@@ -1,12 +1,27 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
-import { Container, Title } from './styles'
+import { todosContext } from '../../contexts/Todos'
+import BoxTodo from '../../components/BoxTodo'
+
+import { TodoList } from './styles'
 
 const Completed: React.FC = () => {
+  const { todos } = useContext(todosContext)
+
+  const [todosCheck, setTodosCheck] = useState([])
+
+  useEffect(() => {
+    const todosFiltered = todos.filter(item => item.completed === true)
+
+    setTodosCheck(todosFiltered)
+  }, [todos])
+
   return (
-    <Container>
-      <Title>Completed</Title>
-    </Container>
+    <TodoList>
+      {todosCheck.map(item => (
+        <BoxTodo key={item.id} todo={item} />
+      ))}
+    </TodoList>
   )
 }
 

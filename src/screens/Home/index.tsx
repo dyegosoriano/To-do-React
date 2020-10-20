@@ -36,7 +36,7 @@ const Home: React.FC = () => {
       behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
     >
       <Container>
-        <TodoList alwaysBounceHorizontal={false}>
+        <TodoList>
           {todos.map(item => (
             <BoxTodo key={item.id} todo={item} />
           ))}
