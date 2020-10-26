@@ -6,13 +6,13 @@ import { todosContext } from '../../contexts/Todos'
 import { ButtonOptions, Todo, TodoText } from './styles'
 
 const BoxTodo: React.FC = ({ todo }) => {
-  const { deleteTodo } = useContext(todosContext)
+  const { deleteTodo, updateStatus } = useContext(todosContext)
 
   return (
     <Todo>
       <TodoText>{todo.title}</TodoText>
 
-      <ButtonOptions>
+      <ButtonOptions onPress={() => updateStatus(todo.id)}>
         <Feather
           name={todo.completed ? 'check-circle' : 'circle'}
           color={todo.completed ? '#00c853' : '#b0bec5'}

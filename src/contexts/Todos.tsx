@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-community/async-storage'
 import { Alert } from 'react-native'
+import { log } from 'react-native-reanimated'
 
 export const todosContext = createContext({})
 
@@ -60,6 +61,14 @@ export default function todosProvider({ children }: any) {
     setTodos([todo, ...todos])
   }
 
+  function updateStatus(id: number) {
+    let index: any = todos.find(item => item.id === id)
+
+    index.completed = !index.completed
+
+    setTodos([...todos])
+  }
+
   useEffect(() => {
     getTodos()
   }, [])
@@ -77,6 +86,7 @@ export default function todosProvider({ children }: any) {
       value={{
         todos,
         loading,
+        updateStatus,
         addNewTodo,
         deleteTodo
       }}
